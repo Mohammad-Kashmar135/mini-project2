@@ -1,6 +1,6 @@
+import { BookingStatus } from "../../types/booking.types";
 import "./StatusBadge.css";
 
-export type BookingStatus = "Confirmed" | "Cancelled" | "Completed";
 
 interface StatusBadgeProps {
   status: BookingStatus;

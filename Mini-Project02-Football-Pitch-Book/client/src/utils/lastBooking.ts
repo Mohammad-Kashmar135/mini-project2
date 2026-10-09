@@ -1,9 +1,6 @@
-const LAST_BOOK_KEY = "pb.lastBooking";
+import { FindBookingPayload as LastBooking } from "../types/booking.types";
 
-interface LastBooking {
-  code: string;
-  customerPhone: number;
-}
+const LAST_BOOK_KEY = "pb.lastBooking";
 
 function isLastBooking(value: unknown): value is LastBooking {
   if (typeof value != "object" || value === null) return false;
