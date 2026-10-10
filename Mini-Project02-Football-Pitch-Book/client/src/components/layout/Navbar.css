@@ -1,0 +1,30 @@
+.layout-navbar {
+  background-color: var(--color-dark);
+  padding: 16px 24px;
+}
+.layout-navbar__container {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.layout-navbar__brand {
+  color: var(--color-surface);
+  font-size: 1.25rem;
+  font-weight: bold;
+}
+.layout-navbar__brand:hover {
+  color: var(--color-accent);
+}
+.layout-navbar__links {
+  display: flex;
+  gap: 24px;
+}
+.layout-navbar__link {
+  color: var(--color-surface);
+  font-weight: 500;
+}
+.layout-navbar__link:hover {
+  color: var(--color-accent);
+}
