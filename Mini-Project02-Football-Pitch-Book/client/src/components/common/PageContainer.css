@@ -1,0 +1,9 @@
+.ui-page-container {
+  width: 100%;
+}
+.ui-page-container__title {
+  margin-top: 0;
+  margin-bottom: 24px;
+  font-size: 2rem;
+  color: var(--color-dark);
+}
