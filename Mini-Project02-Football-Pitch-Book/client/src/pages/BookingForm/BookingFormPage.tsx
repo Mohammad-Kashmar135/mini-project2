@@ -108,7 +108,10 @@ export default function BookingFormPage() {
       });
 
       if (booking) {
-        saveLastBooking(booking.code, booking.customerPhone);
+        saveLastBooking({
+          code: booking.code,
+          customerPhone: booking.customerPhone,
+        });
         navigate(`/confirmation/${encodeURIComponent(booking.code)}`);
         return;
       }
