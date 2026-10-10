@@ -20,7 +20,7 @@ export function saveLastBooking(booking: LastBooking): void {
   }
 }
 
-export function getLastBooing(): LastBooking | null {
+export function getLastBooking(): LastBooking | null {
   try {
     const storedValue = sessionStorage.getItem(LAST_BOOK_KEY);
     if (storedValue === null) return null;
