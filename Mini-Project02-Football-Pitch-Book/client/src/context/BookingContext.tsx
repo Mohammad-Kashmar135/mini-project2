@@ -3,6 +3,7 @@ import {
   useCallback,
   useContext,
   useMemo,
+  useRef,
   useState,
   type ReactNode,
 } from "react";
@@ -55,6 +56,12 @@ export function BookingProvider({ children }: BookingProviderProps) {
   const [isQuoteLoading, setIsQuoteLoading] = useState(false);
   const [quoteError, setQuoteError] = useState<string | null>(null);
 
+  const quoteRequestId = useRef(0);
+
+  const bookingSubmissionInProgress = useRef(false);
+  const bookingLookupInProgress = useRef(false);
+  const cancellationInProgress = useRef(false);
+
   const [booking, setBooking] = useState<Booking | null>(null);
   const [isBookingLoading, setIsBookingLoading] = useState(false);
   const [bookingError, setBookingError] = useState<string | null>(null);
@@ -66,6 +73,8 @@ export function BookingProvider({ children }: BookingProviderProps) {
       startTime: string,
       durationHours: number,
     ): Promise<void> => {
+      const requestId = ++quoteRequestId.current;
+
       setIsQuoteLoading(true);
       setQuoteError(null);
       setQuote(null);
@@ -73,15 +82,22 @@ export function BookingProvider({ children }: BookingProviderProps) {
       try {
         const result = await getQuote(pitchId, date, startTime, durationHours);
 
-        setQuote(result);
+       
+        if (requestId === quoteRequestId.current) {
+          setQuote(result);
+        }
       } catch (error: unknown) {
-        setQuoteError(
-          error instanceof Error
-            ? error.message
-            : "Unable to load the price quote.",
-        );
+        if (requestId === quoteRequestId.current) {
+          setQuoteError(
+            error instanceof Error
+              ? error.message
+              : "Unable to load the price quote.",
+          );
+        }
       } finally {
-        setIsQuoteLoading(false);
+        if (requestId === quoteRequestId.current) {
+          setIsQuoteLoading(false);
+        }
       }
     },
     [],
@@ -89,6 +105,11 @@ export function BookingProvider({ children }: BookingProviderProps) {
 
   const submitBooking = useCallback(
     async (payload: CreateBookingPayload): Promise<Booking | null> => {
+      if (bookingSubmissionInProgress.current) {
+        return null;
+      }
+
+      bookingSubmissionInProgress.current = true;
       setIsBookingLoading(true);
       setBookingError(null);
 
@@ -106,6 +127,7 @@ export function BookingProvider({ children }: BookingProviderProps) {
 
         return null;
       } finally {
+        bookingSubmissionInProgress.current = false;
         setIsBookingLoading(false);
       }
     },
@@ -114,6 +136,11 @@ export function BookingProvider({ children }: BookingProviderProps) {
 
   const lookupBooking = useCallback(
     async (payload: FindBookingPayload): Promise<boolean> => {
+      if (bookingLookupInProgress.current) {
+        return false;
+      }
+
+      bookingLookupInProgress.current = true;
       setIsBookingLoading(true);
       setBookingError(null);
 
@@ -132,6 +159,7 @@ export function BookingProvider({ children }: BookingProviderProps) {
 
         return false;
       } finally {
+        bookingLookupInProgress.current = false;
         setIsBookingLoading(false);
       }
     },
@@ -139,10 +167,14 @@ export function BookingProvider({ children }: BookingProviderProps) {
   );
 
   const cancelCurrentBooking = useCallback(async (): Promise<boolean> => {
+    if (cancellationInProgress.current) {
+      return false;
+    }
     if (!booking) {
       setBookingError("No booking is available to cancel.");
       return false;
     }
+    cancellationInProgress.current = true;
 
     const currentBooking = booking;
     const payload: CancelBookingPayload = {
@@ -179,6 +211,7 @@ export function BookingProvider({ children }: BookingProviderProps) {
       setBookingError(cancellationError);
       return false;
     } finally {
+      cancellationInProgress.current = false;
       setIsBookingLoading(false);
     }
   }, [booking]);
