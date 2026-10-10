@@ -1,7 +1,7 @@
 .my-booking-page {
   min-height: 60vh;
   padding: 2rem 1rem;
-  background: var(--color-bg, #f4f7f5);
+  background: var(--color-bg);
 }
 
 .my-booking-container {
@@ -16,21 +16,22 @@
 
 .my-booking-header h1 {
   margin: 0 0 0.5rem;
-  color: var(--color-text, #0f1f18);
+  color: var(--color-text);
 }
 
 .my-booking-header p {
-  color: var(--color-text-muted, #5b6b63);
+  color: var(--color-text-muted);
   line-height: 1.6;
 }
 
 .my-booking-search,
 .my-booking-details {
   padding: 1.5rem;
-  border: 1px solid var(--color-border, #dce5df);
+  border: 1px solid var(--color-border);
   border-radius: 14px;
-  background: var(--color-surface, #fff);
-  box-shadow: 0 6px 20px rgb(11 31 23 / 5%);
+  background: var(--color-surface);
+  box-shadow: 0 6px 20px
+    color-mix(in srgb, var(--color-dark) 5%, transparent);
 }
 
 .my-booking-search {
@@ -40,7 +41,7 @@
 .my-booking-search h2,
 .my-booking-details h2 {
   margin-top: 0;
-  color: var(--color-text, #0f1f18);
+  color: var(--color-text);
 }
 
 .my-booking-form {
@@ -54,7 +55,7 @@
 }
 
 .my-booking-field label {
-  color: var(--color-text, #0f1f18);
+  color: var(--color-text);
   font-weight: 600;
 }
 
@@ -63,16 +64,16 @@
   width: 100%;
   min-height: 44px;
   padding: 0.7rem 0.8rem;
-  border: 1px solid var(--color-border, #dce5df);
+  border: 1px solid var(--color-border);
   border-radius: 8px;
-  background: var(--color-surface, #fff);
-  color: var(--color-text, #0f1f18);
+  background: var(--color-surface);
+  color: var(--color-text);
   font: inherit;
 }
 
 .my-booking-field input:focus-visible {
-  outline: 3px solid var(--color-primary-light, #dcfce7);
-  border-color: var(--color-primary, #15803d);
+  outline: 3px solid var(--color-primary-light);
+  border-color: var(--color-primary);
 }
 
 .my-booking-submit,
@@ -87,13 +88,13 @@
 }
 
 .my-booking-submit {
-  color: white;
-  background: var(--color-primary, #15803d);
+  color: var(--color-surface);
+  background: var(--color-primary);
 }
 
 .my-booking-cancel {
-  color: white;
-  background: var(--color-error, #dc2626);
+  color: var(--color-surface);
+  background: var(--color-error);
 }
 
 .my-booking-submit:disabled,
@@ -104,7 +105,7 @@
 
 .my-booking-submit:focus-visible,
 .my-booking-cancel:focus-visible {
-  outline: 3px solid var(--color-accent, #a3e635);
+  outline: 3px solid var(--color-accent);
   outline-offset: 3px;
 }
 
@@ -117,13 +118,21 @@
 }
 
 .my-booking-message--error {
-  color: var(--color-error, #dc2626);
-  background: color-mix(in srgb, var(--color-error, #dc2626) 12%, white);
+  color: var(--color-error);
+  background: color-mix(
+    in srgb,
+    var(--color-error) 12%,
+    var(--color-surface)
+  );
 }
 
 .my-booking-message--success {
-  color: var(--color-success, #16a34a);
-  background: color-mix(in srgb, var(--color-success, #16a34a) 12%, white);
+  color: var(--color-success);
+  background: color-mix(
+    in srgb,
+    var(--color-success) 12%,
+    var(--color-surface)
+  );
 }
 
 .my-booking-details {
@@ -147,16 +156,16 @@
   justify-content: space-between;
   gap: 1rem;
   padding: 0.85rem 0;
-  border-bottom: 1px solid var(--color-border, #dce5df);
+  border-bottom: 1px solid var(--color-border);
 }
 
 .my-booking-data dt {
-  color: var(--color-text-muted, #5b6b63);
+  color: var(--color-text-muted);
 }
 
 .my-booking-data dd {
   margin: 0;
-  color: var(--color-text, #0f1f18);
+  color: var(--color-text);
   font-weight: 600;
   text-align: right;
   overflow-wrap: anywhere;
@@ -168,7 +177,7 @@
 
 .my-booking-cancel-section p,
 .my-booking-cancel-note {
-  color: var(--color-text-muted, #5b6b63);
+  color: var(--color-text-muted);
   line-height: 1.6;
 }
 
