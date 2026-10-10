@@ -6,6 +6,8 @@ import { getLastBooking } from "../../utils/lastBooking.ts";
 import StatusBadge from "../../components/common/StatusBadge.tsx";
 import "./BookingConfirmationPage.css";
 
+import { formatBookingDate, formatPrice } from "../../utils/bookingFormatters.ts";
+
 export default function BookingConfirmationPage() {
   const { code } = useParams<{ code: string }>();
   const { booking, isBookingLoading, bookingError, lookupBooking } =
@@ -156,25 +158,4 @@ export default function BookingConfirmationPage() {
       </section>
     </main>
   );
-}
-
-function formatBookingDate(date: string): string {
-  const parsedDate = new Date(`${date}T00:00:00`);
-
-  if (Number.isNaN(parsedDate.getTime())) {
-    return date;
-  }
-
-  return parsedDate.toLocaleDateString(undefined, {
-    year: "numeric",
-    month: "long",
-    day: "numeric",
-  });
-}
-
-function formatPrice(price: number): string {
-  return new Intl.NumberFormat(undefined, {
-    style: "currency",
-    currency: "USD",
-  }).format(price);
 }

@@ -1,5 +1,9 @@
 import type { Booking } from "../../types/booking.types.ts";
 import StatusBadge from "../../components/common/StatusBadge.tsx";
+import {
+  formatBookingDate,
+  formatPrice,
+} from "../../utils/bookingFormatters.ts";
 
 interface BookingDetailsProps {
   booking: Booking;
@@ -88,25 +92,4 @@ export default function BookingDetails({
       )}
     </section>
   );
-}
-
-function formatBookingDate(date: string): string {
-  const parsedDate = new Date(`${date}T00:00:00`);
-
-  if (Number.isNaN(parsedDate.getTime())) {
-    return date;
-  }
-
-  return parsedDate.toLocaleDateString(undefined, {
-    year: "numeric",
-    month: "long",
-    day: "numeric",
-  });
-}
-
-function formatPrice(price: number): string {
-  return new Intl.NumberFormat(undefined, {
-    style: "currency",
-    currency: "USD",
-  }).format(price);
 }
