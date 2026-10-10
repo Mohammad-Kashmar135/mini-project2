@@ -85,9 +85,11 @@ export default function BookingDetails({
         </div>
       ) : (
         <p className="my-booking-cancel-note">
-          {booking.status !== "Confirmed"
-            ? "This booking is not active and cannot be cancelled."
-            : "Cancellation is not currently available for this booking."}
+          {booking.status === "Cancelled"
+            ? "This booking has been cancelled."
+            : booking.status === "Completed"
+              ? "This match has already been played."
+              : "The cancellation deadline has passed. Matches can only be cancelled more than 2 hours before they start."}
         </p>
       )}
     </section>
