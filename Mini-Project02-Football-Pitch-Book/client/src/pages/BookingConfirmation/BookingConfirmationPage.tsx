@@ -1,12 +1,15 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 
-import { useBooking } from "../../context/BookingContext.tsx";
-import { getLastBooking } from "../../utils/lastBooking.ts";
 import StatusBadge from "../../components/common/StatusBadge.tsx";
-import "./BookingConfirmationPage.css";
+import { useBooking } from "../../context/BookingContext.tsx";
+import {
+  formatBookingDate,
+  formatPrice,
+} from "../../utils/bookingFormatters.ts";
+import { getLastBooking } from "../../utils/lastBooking.ts";
 
-import { formatBookingDate, formatPrice } from "../../utils/bookingFormatters.ts";
+import "./BookingConfirmationPage.css";
 
 export default function BookingConfirmationPage() {
   const { code } = useParams<{ code: string }>();
@@ -14,35 +17,64 @@ export default function BookingConfirmationPage() {
     useBooking();
 
   const [restoreError, setRestoreError] = useState<string | null>(null);
+  const [canRetryRestore, setCanRetryRestore] = useState(false);
+  const [retryCount, setRetryCount] = useState(0);
+
+  // Reuse an in-flight request if the effect runs again before it finishes.
+  const restoreRequestRef = useRef<Promise<boolean> | null>(null);
 
   useEffect(() => {
     let isActive = true;
 
-    async function restoreBooking() {
+    async function restoreBooking(): Promise<void> {
       if (!code || booking?.code === code) {
+        setRestoreError(null);
+        setCanRetryRestore(false);
         return;
       }
 
       const lastBooking = getLastBooking();
 
       if (!lastBooking || lastBooking.code !== code) {
+        setCanRetryRestore(false);
         setRestoreError(
           "Booking details are not available in this session. You can find your booking using your phone number and confirmation code.",
         );
         return;
       }
 
+      setCanRetryRestore(true);
       setRestoreError(null);
 
-      const found = await lookupBooking({
-        customerPhone: lastBooking.customerPhone,
-        code: lastBooking.code,
-      });
+      let request = restoreRequestRef.current;
 
-      if (isActive && !found) {
-        setRestoreError(
-          "We couldn't retrieve this booking. Please try again from My Booking.",
-        );
+      if (!request) {
+        request = lookupBooking({
+          customerPhone: lastBooking.customerPhone,
+          code: lastBooking.code,
+        });
+
+        restoreRequestRef.current = request;
+      }
+
+      try {
+        const found = await request;
+
+        if (!isActive) {
+          return;
+        }
+
+        if (!found) {
+          setRestoreError(
+            "We couldn't retrieve this booking. Please try again or use My Booking.",
+          );
+        } else {
+          setRestoreError(null);
+        }
+      } finally {
+        if (restoreRequestRef.current === request) {
+          restoreRequestRef.current = null;
+        }
       }
     }
 
@@ -51,7 +83,7 @@ export default function BookingConfirmationPage() {
     return () => {
       isActive = false;
     };
-  }, [code, booking?.code, lookupBooking]);
+  }, [code, booking?.code, lookupBooking, retryCount]);
 
   const confirmedBooking = booking?.code === code ? booking : null;
 
@@ -70,7 +102,11 @@ export default function BookingConfirmationPage() {
   if (isBookingLoading && !confirmedBooking) {
     return (
       <main className="booking-confirmation-page">
-        <section className="booking-confirmation-card" aria-live="polite">
+        <section
+          className="booking-confirmation-card"
+          aria-live="polite"
+          aria-busy="true"
+        >
           <p>Retrieving your booking details…</p>
         </section>
       </main>
@@ -82,12 +118,29 @@ export default function BookingConfirmationPage() {
       <main className="booking-confirmation-page">
         <section className="booking-confirmation-card">
           <h1>Booking details unavailable</h1>
+
           <p role="alert">
             {restoreError ??
               bookingError ??
               "We couldn't display this booking."}
           </p>
-          <Link to="/my-booking">Go to My Booking</Link>
+
+          <div className="booking-confirmation-actions">
+            {canRetryRestore && (
+              <button
+                type="button"
+                className="booking-confirmation-retry"
+                onClick={() => setRetryCount((count) => count + 1)}
+                disabled={isBookingLoading}
+              >
+                Try again
+              </button>
+            )}
+
+            <Link to="/my-booking" className="booking-confirmation-secondary">
+              Go to My Booking
+            </Link>
+          </div>
         </section>
       </main>
     );
@@ -101,6 +154,7 @@ export default function BookingConfirmationPage() {
         </div>
 
         <h1>Booking details</h1>
+
         <p className="booking-confirmation-intro">
           Keep your confirmation code so you can find your booking later.
         </p>
@@ -120,16 +174,19 @@ export default function BookingConfirmationPage() {
             <dt>Pitch</dt>
             <dd>{confirmedBooking.pitchName}</dd>
           </div>
+
           <div>
             <dt>Date</dt>
             <dd>{formatBookingDate(confirmedBooking.date)}</dd>
           </div>
+
           <div>
             <dt>Time</dt>
             <dd>
               {confirmedBooking.startTime} – {confirmedBooking.endTime}
             </dd>
           </div>
+
           <div>
             <dt>Duration</dt>
             <dd>
@@ -137,10 +194,17 @@ export default function BookingConfirmationPage() {
               {confirmedBooking.durationHours === 1 ? "hour" : "hours"}
             </dd>
           </div>
+
           <div>
             <dt>Customer</dt>
             <dd>{confirmedBooking.customerName}</dd>
           </div>
+
+          <div>
+            <dt>Phone</dt>
+            <dd>{confirmedBooking.customerPhone}</dd>
+          </div>
+
           <div>
             <dt>Total price</dt>
             <dd>{formatPrice(confirmedBooking.totalPrice)}</dd>
@@ -151,6 +215,7 @@ export default function BookingConfirmationPage() {
           <Link to="/my-booking" className="booking-confirmation-primary">
             Manage my booking
           </Link>
+
           <Link to="/" className="booking-confirmation-secondary">
             Back to home
           </Link>
