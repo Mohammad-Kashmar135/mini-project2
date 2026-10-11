@@ -1,11 +1,10 @@
 import { PitchesProvider } from "./context/PitchesContext";
-import { AvailabilityProvider } from "./context/AvailabilityContext.tsx";
+import { AvailabilityProvider } from "./context/AvailabilityContext";
 import { BookingProvider } from "./context/BookingContext";
 import AppRouter from "./routes/AppRouter";
 
 function App() {
   return (
-
     <PitchesProvider>
       <AvailabilityProvider>
         <BookingProvider>
@@ -13,7 +12,6 @@ function App() {
         </BookingProvider>
       </AvailabilityProvider>
     </PitchesProvider>
-
   );
 }
 

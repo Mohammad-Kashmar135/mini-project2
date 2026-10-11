@@ -1,10 +1,10 @@
 import { request } from "./http";
-import { Pitch } from "../types/pitch.types";
+import type { Pitch } from "../types/pitch.types";
 
-export async function getPitches(): Promise<Pitch[]> {
+export function getPitches(): Promise<Pitch[]> {
   return request<Pitch[]>("/pitches");
 }
 
-export async function getPitchById(pitchId: string): Promise<Pitch> {
-  return request<Pitch>(`/pitches/${pitchId}`);
+export function getPitchById(pitchId: string): Promise<Pitch> {
+  return request<Pitch>(`/pitches/${encodeURIComponent(pitchId)}`);
 }

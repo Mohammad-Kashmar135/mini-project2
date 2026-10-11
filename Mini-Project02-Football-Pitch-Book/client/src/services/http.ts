@@ -1,9 +1,10 @@
 const API_BASE_URL = (
   import.meta.env.VITE_API_URL ?? "http://localhost:3000/api"
-).replace(/\/$/, "");
+).replace(/\/+$/, "");
 
 const NETWORK_ERROR_MESSAGE =
   "Cannot reach the server. Please check your connection and try again.";
+
 const STATUS_MESSAGES: Record<number, string> = {
   400: "Invalid input. Please check your data.",
   404: "The requested resource was not found.",
@@ -30,12 +31,15 @@ function isApiErrorResponse(value: unknown): value is { message: string } {
     typeof value === "object" &&
     value !== null &&
     "message" in value &&
-    typeof (value as any).message === "string"
+    typeof value.message === "string"
   );
 }
 
 function getHttpErrorMessage(status: number, data: unknown): string {
-  if (isApiErrorResponse(data)) return data.message;
+  if (isApiErrorResponse(data)) {
+    return data.message;
+  }
+
   return STATUS_MESSAGES[status] ?? `Request failed with status ${status}.`;
 }
 
@@ -68,6 +72,7 @@ export async function request<T>(
         response.status,
       );
     }
+
     throw ApiError("The server returned an invalid response.", response.status);
   }
 
