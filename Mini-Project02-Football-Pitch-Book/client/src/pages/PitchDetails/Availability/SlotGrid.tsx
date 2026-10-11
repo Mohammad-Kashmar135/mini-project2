@@ -1,5 +1,6 @@
-import type { Slot } from "../../types/availability.types";
-import { formatPrice, formatTime } from "../../utils/format";
+import { Slot } from "../../../types/availability.types";
+import { formatPrice } from "../../../utils/format";
+import { formatTime } from "../../../utils/format";
 
 type SlotView = "available" | "selected" | "booked" | "past";
 
@@ -19,7 +20,11 @@ interface SlotGridProps {
 }
 
 /** Shows the slots exactly as the API returned them. It never decides what is free. */
-export function SlotGrid({ slots, selectedIndexes, onToggleSlot }: SlotGridProps) {
+export function SlotGrid({
+  slots,
+  selectedIndexes,
+  onToggleSlot,
+}: SlotGridProps) {
   return (
     <div className="availability-page__slots">
       <ul className="availability-page__legend" aria-label="Slot colors">
@@ -41,7 +46,10 @@ export function SlotGrid({ slots, selectedIndexes, onToggleSlot }: SlotGridProps
           const isAvailable = slot.status === "available";
 
           return (
-            <li key={`${slot.startTime}-${index}`} className="availability-page__grid-item">
+            <li
+              key={`${slot.startTime}-${index}`}
+              className="availability-page__grid-item"
+            >
               <button
                 type="button"
                 className={`availability-page__slot availability-page__slot--${view}`}
@@ -52,9 +60,15 @@ export function SlotGrid({ slots, selectedIndexes, onToggleSlot }: SlotGridProps
                 <span className="availability-page__slot-time">
                   {formatTime(slot.startTime)} – {formatTime(slot.endTime)}
                 </span>
-                <span className="availability-page__slot-price">{formatPrice(slot.price)}</span>
-                {slot.isPeak && <span className="availability-page__slot-peak">Peak</span>}
-                <span className="availability-page__slot-status">{SLOT_LABELS[view]}</span>
+                <span className="availability-page__slot-price">
+                  {formatPrice(slot.price)}
+                </span>
+                {slot.isPeak && (
+                  <span className="availability-page__slot-peak">Peak</span>
+                )}
+                <span className="availability-page__slot-status">
+                  {SLOT_LABELS[view]}
+                </span>
               </button>
             </li>
           );

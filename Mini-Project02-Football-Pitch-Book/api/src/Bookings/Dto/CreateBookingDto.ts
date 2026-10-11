@@ -1,12 +1,13 @@
 import { Transform } from "class-transformer";
-import { IsNotEmpty, IsOptional, IsString, IsIn } from "class-validator";
+import { IsNotEmpty, IsOptional, IsString } from "class-validator";
 import { normalizePhone } from "../../common/normalize.util";
 import {
   IsCalendarDate,
   IsOnTheHour,
   IsValidPhone,
 } from "../../common/validators";
-
+import { Type } from "class-transformer";
+import { IsIn, IsInt } from "class-validator";
 export class CreateBookingDto {
   @IsString({ message: "Pitch ID is required." })
   @IsNotEmpty({ message: "Pitch ID is required." })
@@ -25,8 +26,10 @@ export class CreateBookingDto {
   // 4. durationHours must be the NUMBER 1 or 2.
   //    It comes from a JSON body, so there is NO @Type(() => Number) here:
   //    the text "2" must be rejected.
+  @Type(() => Number)
+  @IsInt()
   @IsIn([1, 2], { message: "A booking can be one or two hours only." })
-  durationHours: 1 | 2;
+  durationHours!: 1 | 2;
 
   // 5. customerName: trimmed first, then must not be empty
   @Transform(({ value }) => (typeof value === "string" ? value.trim() : value))

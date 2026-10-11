@@ -12,6 +12,7 @@ import { FindBookingDto } from "./dto/FindBookingDto";
 import { CancelBookingDto } from "./dto/CancelBookingDto";
 import { CANCEL_LIMIT_HOURS } from "../common/constants";
 import { ClockService } from "../common/clock.service";
+import { BookingCodeParamDto } from "./dto/BookingCodeParamDto";
 import {
   formatHour,
   isPastSlot,
@@ -112,7 +113,7 @@ export class BookingsService {
       customerPhone: dto.customerPhone,
       totalPrice,
       status: "Confirmed",
-      createdAt: now,
+      createdAt: now.toISOString(),
     };
 
     // 8. Save and return (no await between step 5 and here)
@@ -167,6 +168,8 @@ export class BookingsService {
       totalPrice: booking.totalPrice,
       status: this.getBookingStatus(booking, now),
       canCancel: this.canCancel(booking, now),
+      createdAt: booking.createdAt,
+      ...(booking.cancelledAt ? { cancelledAt: booking.cancelledAt } : {}),
     };
   }
 
@@ -239,8 +242,9 @@ export class BookingsService {
     const cancelled: StoredBooking = {
       ...booking,
       status: "Cancelled",
-      cancelledAt: now,
+      cancelledAt: now.toISOString(),
     };
+
     this.store.save(cancelled);
 
     // status 'Cancelled' and canCancel false are calculated here

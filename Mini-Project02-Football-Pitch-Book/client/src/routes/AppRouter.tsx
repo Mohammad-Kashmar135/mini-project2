@@ -1,14 +1,14 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Layout from "../components/layout/Layout";
+
+import HomePage from "../pages/PitchDetails/Home/HomePage";
 import PitchDetailsPage from "../pages/PitchDetails/PitchDetailsPage";
-import BookingFormPage from "../pages/BookingForm/BookingFormPage.tsx";
-import BookingConfirmationPage from "../pages/BookingConfirmation/BookingConfirmationPage.tsx";
-import MyBookingPage from "../pages/MyBooking/MyBookingPage.tsx";
+import AvailabilityPage from "../pages/PitchDetails/Availability/AvailabilityPage";
+import NotFoundPage from "../pages/PitchDetails/NotFound/NotFoundPage";
 
-const HomePage = () => <div>Home Page (Hassan)</div>;
-const AvailabilityPage = () => <div>Availability Page (Hassan)</div>;
-
-const NotFoundPage = () => <div>404 Not Found (Hassan)</div>;
+import BookingFormPage from "../pages/BookingForm/BookingFormPage";
+import BookingConfirmationPage from "../pages/BookingConfirmation/BookingConfirmationPage";
+import MyBookingPage from "../pages/MyBooking/MyBookingPage";
 
 export default function AppRouter() {
   return (
