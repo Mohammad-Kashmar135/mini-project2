@@ -1,0 +1,402 @@
+@baseUrl = http://localhost:3000/api
+
+# Relative dates are calculated when a request is sent.
+@datePast = {{$localDatetime 'YYYY-MM-DD' -1 d}}
+@dateToday = {{$localDatetime 'YYYY-MM-DD'}}
+@datePlus1 = {{$localDatetime 'YYYY-MM-DD' 1 d}}
+@datePlus2 = {{$localDatetime 'YYYY-MM-DD' 2 d}}
+@datePlus3 = {{$localDatetime 'YYYY-MM-DD' 3 d}}
+@datePlus5 = {{$localDatetime 'YYYY-MM-DD' 5 d}}
+@datePlus7 = {{$localDatetime 'YYYY-MM-DD' 7 d}}
+@datePlus8 = {{$localDatetime 'YYYY-MM-DD' 8 d}}
+@datePlus9 = {{$localDatetime 'YYYY-MM-DD' 9 d}}
+@datePlus14 = {{$localDatetime 'YYYY-MM-DD' 14 d}}
+@datePlus15 = {{$localDatetime 'YYYY-MM-DD' 15 d}}
+
+# ============================================================
+# 1. PITCHES
+# ============================================================
+
+### 1.1 List all pitches — expected 200
+# @name getPitches
+GET {{baseUrl}}/pitches
+
+### 1.2 Get one pitch — expected 200
+# @name getPitchById
+GET {{baseUrl}}/pitches/pitch-a
+
+### 1.3 Get a missing pitch — expected 404
+# @name getMissingPitch
+GET {{baseUrl}}/pitches/missing-pitch
+
+
+# ============================================================
+# 2. AVAILABILITY
+# ============================================================
+
+### 2.1 Future date — expected 200
+GET {{baseUrl}}/pitches/pitch-a/availability?date={{datePlus1}}
+
+### 2.2 Past date — expected 200, every slot is past
+GET {{baseUrl}}/pitches/pitch-a/availability?date={{datePast}}
+
+### 2.3 Today + 14 days — expected 200
+GET {{baseUrl}}/pitches/pitch-a/availability?date={{datePlus14}}
+
+### 2.4 Today + 15 days — expected 400
+GET {{baseUrl}}/pitches/pitch-a/availability?date={{datePlus15}}
+
+### 2.5 Invalid calendar date — expected 400
+GET {{baseUrl}}/pitches/pitch-a/availability?date=2026-02-31
+
+### 2.6 Seeded booked slot — Pitch A, date +2, 19:00
+# Expected: the 19:00 slot is booked.
+GET {{baseUrl}}/pitches/pitch-a/availability?date={{datePlus2}}
+
+### 2.7 Slot belonging to a cancelled booking
+# Pitch A, date +2, 20:00 belongs to cancelled booking PB-1010.
+# Expected: the 20:00 slot is available.
+GET {{baseUrl}}/pitches/pitch-a/availability?date={{datePlus2}}
+
+
+# ============================================================
+# 3. QUOTES
+# ============================================================
+
+### 3.1 Normal hour — expected 200
+GET {{baseUrl}}/pitches/pitch-a/quote?date={{datePlus2}}&startTime=17:00&durationHours=1
+
+### 3.2 Peak hour — expected 200
+GET {{baseUrl}}/pitches/pitch-a/quote?date={{datePlus2}}&startTime=19:00&durationHours=1
+
+### 3.3 One normal hour + one peak hour — expected 200
+GET {{baseUrl}}/pitches/pitch-a/quote?date={{datePlus2}}&startTime=17:00&durationHours=2
+
+### 3.4 Outside opening hours — expected 400
+GET {{baseUrl}}/pitches/pitch-a/quote?date={{datePlus2}}&startTime=07:00&durationHours=1
+
+### 3.5 Invalid duration — expected 400
+GET {{baseUrl}}/pitches/pitch-a/quote?date={{datePlus2}}&startTime=17:00&durationHours=3
+
+
+# ============================================================
+# 4. CREATE BOOKINGS
+# ============================================================
+
+### 4.1 Valid one-hour booking — expected 201, status Confirmed
+# @name createValidOneHour
+POST {{baseUrl}}/bookings
+Content-Type: application/json
+
+{
+  "pitchId": "pitch-a",
+  "date": "{{datePlus7}}",
+  "startTime": "12:00",
+  "durationHours": 1,
+  "customerName": "API Demo One Hour",
+  "customerPhone": "0912345678"
+}
+
+### 4.2 Valid two-hour booking — expected 201
+# @name createValidTwoHours
+POST {{baseUrl}}/bookings
+Content-Type: application/json
+
+{
+  "pitchId": "pitch-b",
+  "date": "{{datePlus8}}",
+  "startTime": "13:00",
+  "durationHours": 2,
+  "customerName": "API Demo Two Hours",
+  "customerPhone": "0912345678"
+}
+
+### 4.3 Full overlap with seeded booking PB-1004 — expected 409
+POST {{baseUrl}}/bookings
+Content-Type: application/json
+
+{
+  "pitchId": "pitch-c",
+  "date": "{{datePlus3}}",
+  "startTime": "20:00",
+  "durationHours": 2,
+  "customerName": "Overlap Demo",
+  "customerPhone": "0912345678"
+}
+
+### 4.4 Partial overlap with seeded booking PB-1004 — expected 409
+# This request covers 19:00–21:00; PB-1004 covers 20:00–22:00.
+POST {{baseUrl}}/bookings
+Content-Type: application/json
+
+{
+  "pitchId": "pitch-c",
+  "date": "{{datePlus3}}",
+  "startTime": "19:00",
+  "durationHours": 2,
+  "customerName": "Partial Overlap Demo",
+  "customerPhone": "0912345678"
+}
+
+### 4.5 Same time on a different pitch — expected 201
+# Pitch C has a booking at this time; Pitch B is independent.
+POST {{baseUrl}}/bookings
+Content-Type: application/json
+
+{
+  "pitchId": "pitch-b",
+  "date": "{{datePlus3}}",
+  "startTime": "20:00",
+  "durationHours": 2,
+  "customerName": "Different Pitch Demo",
+  "customerPhone": "0912345678"
+}
+
+### 4.6 Past date/time — expected 400
+POST {{baseUrl}}/bookings
+Content-Type: application/json
+
+{
+  "pitchId": "pitch-a",
+  "date": "{{datePast}}",
+  "startTime": "12:00",
+  "durationHours": 1,
+  "customerName": "Past Booking Demo",
+  "customerPhone": "0912345678"
+}
+
+### 4.7 More than 14 days ahead — expected 400
+POST {{baseUrl}}/bookings
+Content-Type: application/json
+
+{
+  "pitchId": "pitch-a",
+  "date": "{{datePlus15}}",
+  "startTime": "12:00",
+  "durationHours": 1,
+  "customerName": "Advance Booking Demo",
+  "customerPhone": "0912345678"
+}
+
+### 4.8 Outside opening hours — expected 400
+POST {{baseUrl}}/bookings
+Content-Type: application/json
+
+{
+  "pitchId": "pitch-a",
+  "date": "{{datePlus5}}",
+  "startTime": "07:00",
+  "durationHours": 1,
+  "customerName": "Outside Hours Demo",
+  "customerPhone": "0912345678"
+}
+
+### 4.9 Invalid duration — expected 400
+POST {{baseUrl}}/bookings
+Content-Type: application/json
+
+{
+  "pitchId": "pitch-a",
+  "date": "{{datePlus5}}",
+  "startTime": "12:00",
+  "durationHours": 3,
+  "customerName": "Invalid Duration Demo",
+  "customerPhone": "0912345678"
+}
+
+### 4.10 Missing customer name — expected 400
+POST {{baseUrl}}/bookings
+Content-Type: application/json
+
+{
+  "pitchId": "pitch-a",
+  "date": "{{datePlus5}}",
+  "startTime": "13:00",
+  "durationHours": 1,
+  "customerName": "",
+  "customerPhone": "0912345678"
+}
+
+### 4.11 Invalid phone number — expected 400
+POST {{baseUrl}}/bookings
+Content-Type: application/json
+
+{
+  "pitchId": "pitch-a",
+  "date": "{{datePlus5}}",
+  "startTime": "14:00",
+  "durationHours": 1,
+  "customerName": "Invalid Phone Demo",
+  "customerPhone": "09123abc78"
+}
+
+### 4.12 Missing pitchId — expected 400
+POST {{baseUrl}}/bookings
+Content-Type: application/json
+
+{
+  "date": "{{datePlus5}}",
+  "startTime": "15:00",
+  "durationHours": 1,
+  "customerName": "Missing Pitch Demo",
+  "customerPhone": "0912345678"
+}
+
+### 4.13 Unknown pitchId — expected 404
+POST {{baseUrl}}/bookings
+Content-Type: application/json
+
+{
+  "pitchId": "missing-pitch",
+  "date": "{{datePlus5}}",
+  "startTime": "16:00",
+  "durationHours": 1,
+  "customerName": "Unknown Pitch Demo",
+  "customerPhone": "0912345678"
+}
+
+### 4.14 First request — expected 201
+# @name createDuplicateBookingFirst
+POST {{baseUrl}}/bookings
+Content-Type: application/json
+
+{
+  "pitchId": "pitch-a",
+  "date": "{{datePlus9}}",
+  "startTime": "15:00",
+  "durationHours": 1,
+  "customerName": "Duplicate Request Demo",
+  "customerPhone": "0912345678"
+}
+
+### 4.15 Send the SAME request again — expected 409
+# @name createDuplicateBookingSecond
+POST {{baseUrl}}/bookings
+Content-Type: application/json
+
+{
+  "pitchId": "pitch-a",
+  "date": "{{datePlus9}}",
+  "startTime": "15:00",
+  "durationHours": 1,
+  "customerName": "Duplicate Request Demo",
+  "customerPhone": "0912345678"
+}
+
+### 4.16 Prepare a booking for the cancellation-within-two-hours scenario
+# Enter a valid date and a start time within the next two hours.
+# The time must also be inside pitch opening hours.
+# @prompt soonDate Enter a valid booking date in YYYY-MM-DD format
+# @prompt soonStartTime Enter a valid HH:00 start time within the next two hours and opening hours
+# @name createBookingForNearTermCancellation
+POST {{baseUrl}}/bookings
+Content-Type: application/json
+
+{
+  "pitchId": "pitch-a",
+  "date": "{{soonDate}}",
+  "startTime": "{{soonStartTime}}",
+  "durationHours": 1,
+  "customerName": "Near Term Cancellation Demo",
+  "customerPhone": "0912345678"
+}
+
+
+# ============================================================
+# 5. FIND BOOKINGS
+# ============================================================
+
+### 5.1 Correct phone and code — expected 200
+POST {{baseUrl}}/bookings/find
+Content-Type: application/json
+
+{
+  "customerPhone": "0955000101",
+  "code": "PB-1001"
+}
+
+### 5.2 Wrong phone — expected 404
+POST {{baseUrl}}/bookings/find
+Content-Type: application/json
+
+{
+  "customerPhone": "0955000999",
+  "code": "PB-1001"
+}
+
+### 5.3 Wrong code — expected 404 with the same message as wrong phone
+POST {{baseUrl}}/bookings/find
+Content-Type: application/json
+
+{
+  "customerPhone": "0955000101",
+  "code": "PB-9999"
+}
+
+### 5.4 Lowercase booking code — expected 200
+POST {{baseUrl}}/bookings/find
+Content-Type: application/json
+
+{
+  "customerPhone": "0955000101",
+  "code": "pb-1001"
+}
+
+### 5.5 Past confirmed booking — expected 200, status Completed
+POST {{baseUrl}}/bookings/find
+Content-Type: application/json
+
+{
+  "customerPhone": "0955000108",
+  "code": "PB-1008"
+}
+
+
+# ============================================================
+# 6. CANCEL BOOKINGS
+# ============================================================
+
+### 6.1 More than two hours before the match — expected 200, status Cancelled
+# Uses seeded booking PB-1001.
+PATCH {{baseUrl}}/bookings/PB-1001/cancel
+Content-Type: application/json
+
+{
+  "customerPhone": "0955000101"
+}
+
+### 6.2 Two hours or less before the match — expected 400
+# Uses the booking created by request 4.16.
+# Send request 4.16 first, with a valid date and start time within two hours.
+PATCH {{baseUrl}}/bookings/{{createBookingForNearTermCancellation.response.body.$.code}}/cancel
+Content-Type: application/json
+
+{
+  "customerPhone": "0912345678"
+}
+
+### 6.3 Already-cancelled booking — expected 400
+# PB-1010 is seeded as Cancelled.
+PATCH {{baseUrl}}/bookings/PB-1010/cancel
+Content-Type: application/json
+
+{
+  "customerPhone": "0955000110"
+}
+
+### 6.4 Completed booking — expected 400
+# PB-1008 is a past confirmed booking, shown as Completed.
+PATCH {{baseUrl}}/bookings/PB-1008/cancel
+Content-Type: application/json
+
+{
+  "customerPhone": "0955000108"
+}
+
+### 6.5 Wrong phone when cancelling — expected 404
+PATCH {{baseUrl}}/bookings/PB-1002/cancel
+Content-Type: application/json
+
+{
+  "customerPhone": "0955000999"
+}
