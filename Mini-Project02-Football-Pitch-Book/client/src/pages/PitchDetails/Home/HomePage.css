@@ -1,0 +1,172 @@
+.home-page {
+  width: 100%;
+  color: var(--color-text);
+}
+
+.home-page__hero {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 1rem;
+  padding: 2rem 1.5rem;
+  border-radius: 16px;
+  background-color: var(--color-dark);
+  color: var(--color-surface);
+}
+
+.home-page__title {
+  margin: 0;
+  font-size: 2rem;
+  line-height: 1.15;
+}
+
+.home-page__tagline {
+  margin: 0;
+  max-width: 36rem;
+  font-size: 1.1rem;
+  color: color-mix(in srgb, var(--color-surface) 80%, var(--color-dark));
+}
+
+.home-page__pitches {
+  margin-top: 2rem;
+}
+
+.home-page__section-title {
+  margin: 0 0 1rem;
+  font-size: 1.5rem;
+}
+
+.home-page__section-title:focus-visible {
+  outline: 3px solid color-mix(in srgb, var(--color-primary) 45%, white);
+  outline-offset: 4px;
+}
+
+.home-page__grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 1rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.home-page__grid-item {
+  display: flex;
+  min-width: 0;
+}
+
+/* ---------- pitch card ---------- */
+
+.home-pitch-card {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: 1rem;
+  padding: 1.25rem;
+  border: 1px solid var(--color-border);
+  border-radius: 0.75rem;
+  background-color: var(--color-surface);
+}
+
+.home-pitch-card__header {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+
+.home-pitch-card__name {
+  margin: 0;
+  font-size: 1.25rem;
+}
+
+.home-pitch-card__type {
+  margin: 0;
+  color: var(--color-text-muted);
+}
+
+.home-pitch-card__details {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin: 0;
+}
+
+.home-pitch-card__row {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.75rem;
+  padding: 0.35rem 0.6rem;
+  border-left: 4px solid transparent;
+}
+
+.home-pitch-card__row--peak {
+  border-left-color: var(--color-peak);
+  background-color: color-mix(in srgb, var(--color-peak) 18%, white);
+  font-weight: 700;
+}
+
+.home-pitch-card__label {
+  color: var(--color-text-muted);
+}
+
+.home-pitch-card__row--peak .home-pitch-card__label {
+  color: var(--color-text);
+}
+
+.home-pitch-card__value {
+  margin: 0;
+  font-weight: 700;
+  text-align: right;
+  white-space: nowrap;
+}
+
+.home-pitch-card__link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  align-self: stretch;
+  min-height: 2.75rem;
+  margin-top: auto;
+  padding: 0.6rem 1.25rem;
+  border-radius: 0.5rem;
+  background-color: var(--color-primary);
+  color: var(--color-surface);
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.home-pitch-card__link:hover {
+  background-color: var(--color-primary-dark);
+}
+
+.home-pitch-card__link:focus-visible {
+  outline: 3px solid color-mix(in srgb, var(--color-primary) 45%, white);
+  outline-offset: 2px;
+}
+
+@media (min-width: 40rem) {
+  .home-page__grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .home-page__title {
+    font-size: 2.5rem;
+  }
+
+  .home-page__hero {
+    padding: 3rem 2rem;
+  }
+}
+
+@media (min-width: 64rem) {
+  .home-page__grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+@media (min-width: 75rem) {
+  .home-page__grid {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
