@@ -1,32 +1,35 @@
-import { StoredBookingStatus } from "../data/data";
+import type { StoredBookingStatus } from "../data/data";
+
+export type BookingStatus = StoredBookingStatus | "Completed";
+
 export interface StoredBooking {
   code: string;
   pitchId: string;
-  date: string; // YYYY-MM-DD
+  date: string;
   startTime: string;
-  endTime: string; // HH:mm
-  durationHours: number;
+  endTime: string;
+  durationHours: 1 | 2;
   customerName: string;
   customerPhone: string;
   totalPrice: number;
   status: StoredBookingStatus;
-  createdAt: string; // ISO
-  cancelledAt?: string; // ISO
+  createdAt: string;
+  cancelledAt?: string;
 }
 
 export interface BookingResponse {
   code: string;
   pitchId: string;
   pitchName: string;
-  date: string; // YYYY-MM-DD
+  date: string;
   startTime: string;
-  endTime: string; // HH:mm
-  durationHours: number;
+  endTime: string;
+  durationHours: 1 | 2;
   customerName: string;
   customerPhone: string;
   totalPrice: number;
-  status: StoredBookingStatus;
-  canCancel: true | false;
-  createdAt: string; // ISO
-  cancelledAt?: string; // ISO
+  status: BookingStatus;
+  canCancel: boolean;
+  createdAt: string;
+  cancelledAt?: string;
 }

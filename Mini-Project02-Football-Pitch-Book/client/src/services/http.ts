@@ -49,13 +49,17 @@ export async function request<T>(
 ): Promise<T> {
   let response: Response;
 
+  const normalizedPath = path.startsWith("/") ? path : `/${path}`;
+  const headers = new Headers(options?.headers);
+
+  if (options?.body !== undefined && !headers.has("Content-Type")) {
+    headers.set("Content-Type", "application/json");
+  }
+
   try {
-    response = await fetch(`${API_BASE_URL}${path}`, {
+    response = await fetch(`${API_BASE_URL}${normalizedPath}`, {
       ...options,
-      headers: {
-        "Content-Type": "application/json",
-        ...options?.headers,
-      },
+      headers,
     });
   } catch {
     throw ApiError(NETWORK_ERROR_MESSAGE, null);
@@ -71,6 +75,10 @@ export async function request<T>(
         getHttpErrorMessage(response.status, null),
         response.status,
       );
+    }
+
+    if (response.status === 204) {
+      return undefined as T;
     }
 
     throw ApiError("The server returned an invalid response.", response.status);

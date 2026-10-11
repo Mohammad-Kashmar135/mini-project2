@@ -1,20 +1,20 @@
-import { createSeedBookings, SeedBooking } from "../data/data";
 import { Injectable } from "@nestjs/common";
+import { createSeedBookings, SeedBooking } from "../data/data";
 
 @Injectable()
 export class BookingsStore {
-  private storedbookings: SeedBooking[] = createSeedBookings();
+  private readonly storedBookings: SeedBooking[] = createSeedBookings();
 
   findAll(): SeedBooking[] {
-    return this.storedbookings;
+    return [...this.storedBookings];
   }
 
   findByCode(code: string): SeedBooking | undefined {
-    return this.storedbookings.find((booking) => booking.code === code);
+    return this.storedBookings.find((booking) => booking.code === code);
   }
 
   findActiveByPitchAndDate(pitchId: string, date: string): SeedBooking[] {
-    return this.storedbookings.filter(
+    return this.storedBookings.filter(
       (booking) =>
         booking.pitchId === pitchId &&
         booking.date === date &&
@@ -23,23 +23,26 @@ export class BookingsStore {
   }
 
   save(booking: SeedBooking): SeedBooking {
-    const existbooking = this.storedbookings.findIndex(
-      (booking) => booking.code === booking.code,
+    const existingIndex = this.storedBookings.findIndex(
+      (existing) => existing.code === booking.code,
     );
-    if (existbooking === -1) {
-      this.storedbookings.push(booking);
+
+    if (existingIndex === -1) {
+      this.storedBookings.push(booking);
     } else {
-      this.storedbookings[existbooking] = booking;
+      this.storedBookings[existingIndex] = booking;
     }
+
     return booking;
   }
 
   generateUniqueCode(): string {
-    let code = "";
+    let code: string;
+
     do {
       const randomDigits = Math.floor(1000 + Math.random() * 9000);
       code = `PB-${randomDigits}`;
-    } while (this.storedbookings.some((b) => b.code === code));
+    } while (this.storedBookings.some((booking) => booking.code === code));
 
     return code;
   }

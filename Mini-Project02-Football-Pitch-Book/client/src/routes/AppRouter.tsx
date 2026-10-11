@@ -1,5 +1,4 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-
 import Layout from "../components/layout/Layout";
 
 import HomePage from "../pages/PitchDetails/Home/HomePage";
@@ -17,23 +16,17 @@ export default function AppRouter() {
       <Layout>
         <Routes>
           <Route path="/" element={<HomePage />} />
-
           <Route path="/pitches/:pitchId" element={<PitchDetailsPage />} />
-
           <Route
             path="/pitches/:pitchId/availability"
             element={<AvailabilityPage />}
           />
-
           <Route path="/pitches/:pitchId/book" element={<BookingFormPage />} />
-
           <Route
             path="/confirmation/:code"
             element={<BookingConfirmationPage />}
           />
-
           <Route path="/my-booking" element={<MyBookingPage />} />
-
           <Route path="*" element={<NotFoundPage />} />
         </Routes>
       </Layout>
