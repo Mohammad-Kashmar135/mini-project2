@@ -1,12 +1,11 @@
 import { useLayoutEffect, useRef } from "react";
-import Button from "../../../components/common/Button";
-import EmptyState from "../../../components/common/EmptyState";
-import ErrorMessage from "../../../components/common/ErrorMessage";
-import Loading from "../../../components/common/Loading";
-import { usePitches } from "../../../context/PitchesContext";
+import Button from "../../components/common/Button";
+import EmptyState from "../../components/common/EmptyState";
+import ErrorMessage from "../../components/common/ErrorMessage";
+import Loading from "../../components/common/Loading";
+import { usePitches } from "../../context/PitchesContext";
 import PitchCard from "./PitchCard";
 import "./HomePage.css";
-
 export function HomePage() {
   const { pitches, isPitchesLoading, pitchesError, loadPitches } = usePitches();
   const listHeadingRef = useRef<HTMLHeadingElement>(null);
@@ -71,12 +70,14 @@ export function HomePage() {
 
       <section
         className="home-page__pitches"
-        aria-labelledby="home-pitches-heading">
+        aria-labelledby="home-pitches-heading"
+      >
         <h2
           id="home-pitches-heading"
           className="home-page__section-title"
           ref={listHeadingRef}
-          tabIndex={-1}>
+          tabIndex={-1}
+        >
           Our pitches
         </h2>
         {content}

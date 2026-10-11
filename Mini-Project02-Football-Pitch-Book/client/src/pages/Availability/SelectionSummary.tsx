@@ -1,6 +1,6 @@
-import Button from "../../../components/common/Button";
-import type { Slot } from "../../../types/availability.types";
-import { formatDuration, formatTime } from "../../../utils/format";
+import Button from "../../components/common/Button";
+import type { Slot } from "../../types/availability.types";
+import { formatDuration, formatTime } from "../../utils/format";
 
 interface SelectionSummaryProps {
   selectedSlots: Slot[];

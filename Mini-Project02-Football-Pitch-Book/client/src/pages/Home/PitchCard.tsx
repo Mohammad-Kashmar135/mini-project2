@@ -1,13 +1,12 @@
 import { Link } from "react-router-dom";
-import type { Pitch } from "../../../types/pitch.types";
-import { formatPrice, formatTime } from "../../../utils/format";
+import type { Pitch } from "../../types/pitch.types";
+import { formatPrice, formatTime } from "../../utils/format";
 
 interface PitchCardProps {
   pitch: Pitch;
 }
 
-/** Shows one pitch exactly as the API returned it. Prices are displayed, never calculated. */
-export function PitchCard({ pitch }: PitchCardProps) {
+export default function PitchCard({ pitch }: PitchCardProps) {
   return (
     <article className="home-pitch-card">
       <header className="home-pitch-card__header">
@@ -22,12 +21,14 @@ export function PitchCard({ pitch }: PitchCardProps) {
             {formatPrice(pitch.normalPricePerHour)} / hour
           </dd>
         </div>
+
         <div className="home-pitch-card__row home-pitch-card__row--peak">
           <dt className="home-pitch-card__label">Peak price</dt>
           <dd className="home-pitch-card__value">
             {formatPrice(pitch.peakPricePerHour)} / hour
           </dd>
         </div>
+
         <div className="home-pitch-card__row">
           <dt className="home-pitch-card__label">Opening hours</dt>
           <dd className="home-pitch-card__value">
@@ -38,11 +39,10 @@ export function PitchCard({ pitch }: PitchCardProps) {
 
       <Link
         className="home-pitch-card__link"
-        to={`/pitches/${encodeURIComponent(pitch.id)}`}>
+        to={`/pitches/${encodeURIComponent(pitch.id)}`}
+      >
         View pitch
       </Link>
     </article>
   );
 }
-
-export default PitchCard;

@@ -1,6 +1,6 @@
-import { Slot } from "../../../types/availability.types";
-import { formatPrice } from "../../../utils/format";
-import { formatTime } from "../../../utils/format";
+import { Slot } from "../../types/availability.types";
+import { formatPrice } from "../../utils/format";
+import { formatTime } from "../../utils/format";
 
 type SlotView = "available" | "selected" | "booked" | "past";
 
