@@ -2,9 +2,11 @@ import { NestFactory } from "@nestjs/core";
 import { AppModule } from "./app.module";
 import { createValidationPipe } from "./common/validation.pipe";
 import { AllExceptionsFilter } from "./common/all-exceptions.filter";
+import { ValidationPipe } from "@nestjs/common";
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
+  await app.listen(process.env.PORT ?? 3000);
 
   app.setGlobalPrefix("api");
 
@@ -12,9 +14,10 @@ async function bootstrap() {
     origin: "http://localhost:5173",
   });
 
-  app.useGlobalPipes(createValidationPipe());
+   app.useGlobalPipes(
+    new ValidationPipe({ whitelist: true, forbidNonWhitelisted: true }),
+  );
   app.useGlobalFilters(new AllExceptionsFilter());
 
-  await app.listen(3000);
 }
 bootstrap();

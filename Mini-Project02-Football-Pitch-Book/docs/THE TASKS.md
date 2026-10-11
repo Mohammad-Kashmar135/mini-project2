@@ -1207,7 +1207,7 @@ Write properties in the order below. Every decorator has a `message` from `docs/
 
 `durationHours` comes from a JSON body, so it must be the **number** `1` or `2`. The text `"2"` is rejected.
 
-### `FindBookingDto`
+### ` `
 
 | Property | Transform | Decorators | Message |
 | --- | --- | --- | --- |
