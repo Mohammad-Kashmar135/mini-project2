@@ -1,6 +1,7 @@
 import { Injectable, NotFoundException } from "@nestjs/common";
-import { SEED_PITCHES } from "../data/data";
 import { Pitch } from "./pitch.types";
+import { SEED_PITCHES } from "../data/data";
+
 
 @Injectable()
 export class PitchesService {
