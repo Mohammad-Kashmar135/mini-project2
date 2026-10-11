@@ -1,0 +1,19 @@
+.ui-empty-state {
+  padding: 2rem 1rem;
+  border: 2px dashed var(--color-border);
+  border-radius: 0.75rem;
+  background-color: var(--color-surface);
+  text-align: center;
+}
+
+.ui-empty-state__title {
+  margin: 0;
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: var(--color-text);
+}
+
+.ui-empty-state__description {
+  margin: 0.5rem 0 0;
+  color: var(--color-text-muted);
+}

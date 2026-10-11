@@ -79,8 +79,9 @@ export default function PitchDetailsPage() {
         <div className="pitch-details-page__actions">
           <Button
             variant="primary"
-            onClick={() => navigate(`/pitches/${currentPitch.id}/availability`)}
-          >
+            onClick={() =>
+              navigate(`/pitches/${currentPitch.id}/availability`)
+            }>
             Check availability
           </Button>
         </div>

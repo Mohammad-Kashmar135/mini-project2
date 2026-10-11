@@ -1,0 +1,289 @@
+.availability-page {
+  width: 100%;
+  color: var(--color-text);
+}
+
+.availability-page__header {
+  margin-bottom: 1rem;
+}
+
+.availability-page__back {
+  display: inline-block;
+  margin-bottom: 0.5rem;
+  color: var(--color-primary);
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.availability-page__back:hover {
+  color: var(--color-primary-dark);
+  text-decoration: underline;
+}
+
+.availability-page__subtitle {
+  margin: 0.25rem 0 0;
+  color: var(--color-text-muted);
+}
+
+.availability-page__controls {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem 0.75rem;
+  margin-bottom: 1.5rem;
+  padding: 0.75rem 1rem;
+  border: 1px solid var(--color-border);
+  border-radius: 0.75rem;
+  background-color: var(--color-surface);
+}
+
+.availability-page__label {
+  font-weight: 700;
+}
+
+.availability-page__date-input {
+  min-height: 2.5rem;
+  padding: 0.35rem 0.6rem;
+  border: 1px solid var(--color-border);
+  border-radius: 0.5rem;
+  background-color: var(--color-surface);
+  color: var(--color-text);
+  font: inherit;
+}
+
+.availability-page__date-input:focus-visible {
+  outline: 3px solid color-mix(in srgb, var(--color-primary) 45%, white);
+  outline-offset: 1px;
+  border-color: var(--color-primary);
+}
+
+.availability-page__hint {
+  color: var(--color-text-muted);
+  font-size: 0.9rem;
+}
+
+.availability-page__problem {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 1rem;
+}
+
+.availability-page__link {
+  display: inline-flex;
+  align-items: center;
+  min-height: 2.75rem;
+  padding: 0.6rem 1.25rem;
+  border-radius: 0.5rem;
+  background-color: var(--color-primary);
+  color: var(--color-surface);
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.availability-page__link:hover {
+  background-color: var(--color-primary-dark);
+}
+
+.availability-page__link:focus-visible {
+  outline: 3px solid color-mix(in srgb, var(--color-primary) 45%, white);
+  outline-offset: 2px;
+}
+
+/* ---------- legend ---------- */
+
+.availability-page__legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 1.25rem;
+  margin: 0 0 1rem;
+  padding: 0;
+  list-style: none;
+  font-size: 0.9rem;
+}
+
+.availability-page__legend-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.availability-page__legend-swatch {
+  width: 1rem;
+  height: 1rem;
+  border: 2px solid transparent;
+  border-radius: 0.25rem;
+}
+
+.availability-page__legend-swatch--available {
+  background-color: var(--color-primary-light);
+  border-color: var(--color-primary);
+}
+
+.availability-page__legend-swatch--selected {
+  background-color: var(--color-primary);
+  border-color: var(--color-primary);
+}
+
+.availability-page__legend-swatch--booked {
+  background-color: color-mix(in srgb, var(--color-error) 12%, white);
+  border-color: var(--color-error);
+}
+
+.availability-page__legend-swatch--past {
+  background-color: color-mix(in srgb, var(--color-text-muted) 12%, white);
+  border-color: var(--color-border);
+  border-style: dashed;
+}
+
+/* ---------- slots ---------- */
+
+.availability-page__grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.75rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.availability-page__grid-item {
+  display: flex;
+  min-width: 0;
+}
+
+.availability-page__slot {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.2rem;
+  min-width: 0;
+  min-height: 5.5rem;
+  padding: 0.75rem;
+  border: 2px solid var(--color-border);
+  border-radius: 0.75rem;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+  transition: background-color 0.15s ease, border-color 0.15s ease;
+}
+
+.availability-page__slot:focus-visible {
+  outline: 3px solid color-mix(in srgb, var(--color-primary) 45%, white);
+  outline-offset: 2px;
+}
+
+.availability-page__slot-time {
+  font-weight: 700;
+}
+
+.availability-page__slot-price {
+  font-size: 0.95rem;
+}
+
+.availability-page__slot-peak {
+  padding: 0.05rem 0.45rem;
+  border-radius: 999px;
+  background-color: var(--color-peak);
+  color: var(--color-dark);
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+.availability-page__slot-status {
+  margin-top: auto;
+  font-size: 0.85rem;
+  font-weight: 700;
+}
+
+.availability-page__slot--available {
+  background-color: var(--color-primary-light);
+  border-color: var(--color-primary);
+  color: var(--color-text);
+}
+
+.availability-page__slot--available:hover {
+  background-color: color-mix(in srgb, var(--color-primary-light) 70%, var(--color-primary));
+}
+
+.availability-page__slot--selected {
+  background-color: var(--color-primary);
+  border-color: var(--color-primary-dark);
+  color: var(--color-surface);
+}
+
+.availability-page__slot--booked {
+  background-color: color-mix(in srgb, var(--color-error) 12%, white);
+  border-color: var(--color-error);
+  color: color-mix(in srgb, var(--color-error) 75%, var(--color-dark));
+  cursor: not-allowed;
+}
+
+.availability-page__slot--past {
+  background-color: color-mix(in srgb, var(--color-text-muted) 12%, white);
+  border-style: dashed;
+  color: var(--color-text-muted);
+  cursor: not-allowed;
+}
+
+/* ---------- summary ---------- */
+
+.availability-page__summary {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin-top: 1.5rem;
+  padding: 1rem 1.25rem;
+  border: 1px solid var(--color-border);
+  border-radius: 0.75rem;
+  background-color: var(--color-surface);
+}
+
+.availability-page__summary-info {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.availability-page__summary-range,
+.availability-page__summary-duration,
+.availability-page__summary-empty,
+.availability-page__summary-message {
+  margin: 0;
+}
+
+.availability-page__summary-range {
+  font-size: 1.25rem;
+  font-weight: 700;
+}
+
+.availability-page__summary-duration,
+.availability-page__summary-empty {
+  color: var(--color-text-muted);
+}
+
+.availability-page__summary-message {
+  color: color-mix(in srgb, var(--color-error) 75%, var(--color-dark));
+  font-weight: 700;
+}
+
+@media (min-width: 40rem) {
+  .availability-page__grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .availability-page__summary {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+  }
+}
+
+@media (min-width: 64rem) {
+  .availability-page__grid {
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+  }
+}
