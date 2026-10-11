@@ -1,0 +1,167 @@
+.booking-confirmation-page {
+  min-height: 60vh;
+  padding: 2rem 1rem;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  background: var(--color-bg);
+}
+
+.booking-confirmation-card {
+  width: 100%;
+  max-width: 620px;
+  padding: 2rem;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: 16px;
+  box-shadow: 0 8px 24px
+    color-mix(in srgb, var(--color-dark) 7%, transparent);
+}
+
+.booking-confirmation-success {
+  width: 48px;
+  height: 48px;
+  display: grid;
+  place-items: center;
+  margin-bottom: 1rem;
+  border-radius: 50%;
+  color: var(--color-success);
+  background: var(--color-primary-light);
+  font-size: 1.6rem;
+  font-weight: 700;
+}
+
+.booking-confirmation-card h1 {
+  margin: 0 0 0.75rem;
+  color: var(--color-text);
+}
+
+.booking-confirmation-intro {
+  color: var(--color-text-muted);
+  line-height: 1.6;
+}
+
+.booking-confirmation-code {
+  display: grid;
+  gap: 0.5rem;
+  margin: 1.5rem 0;
+  padding: 1rem;
+  border: 1px dashed var(--color-primary);
+  border-radius: 10px;
+  background: var(--color-primary-light);
+}
+
+.booking-confirmation-code span,
+.booking-confirmation-status > span {
+  color: var(--color-text-muted);
+  font-size: 0.9rem;
+}
+
+.booking-confirmation-code strong {
+  color: var(--color-primary-dark);
+  font-size: 1.35rem;
+  overflow-wrap: anywhere;
+}
+
+.booking-confirmation-status {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.booking-confirmation-details {
+  margin: 0;
+}
+
+.booking-confirmation-details > div {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.85rem 0;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.booking-confirmation-details dt {
+  color: var(--color-text-muted);
+}
+
+.booking-confirmation-details dd {
+  margin: 0;
+  color: var(--color-text);
+  font-weight: 600;
+  text-align: right;
+  overflow-wrap: anywhere;
+}
+
+.booking-confirmation-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-top: 1.5rem;
+}
+
+.booking-confirmation-actions a,
+.booking-confirmation-actions button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 44px;
+  padding: 0.7rem 1rem;
+  border: 1px solid var(--color-primary);
+  border-radius: 8px;
+  text-decoration: none;
+  font: inherit;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.booking-confirmation-retry {
+  color: var(--color-surface);
+  background: var(--color-primary);
+}
+
+.booking-confirmation-retry:disabled {
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+.booking-confirmation-primary {
+  color: var(--color-surface);
+  background: var(--color-primary);
+}
+
+.booking-confirmation-secondary {
+  color: var(--color-primary-dark);
+  background: var(--color-surface);
+}
+
+.booking-confirmation-actions a:focus-visible {
+  outline: 3px solid var(--color-accent);
+  outline-offset: 3px;
+}
+
+@media (max-width: 480px) {
+  .booking-confirmation-card {
+    padding: 1.25rem;
+  }
+
+  .booking-confirmation-details > div {
+    flex-direction: column;
+    gap: 0.35rem;
+  }
+
+  .booking-confirmation-details dd {
+    text-align: left;
+  }
+
+  .booking-confirmation-actions {
+    flex-direction: column;
+  }
+
+  .booking-confirmation-actions a,
+.booking-confirmation-actions button {
+  width: 100%;
+  box-sizing: border-box;
+}
+}
