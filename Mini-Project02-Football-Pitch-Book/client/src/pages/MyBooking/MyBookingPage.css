@@ -1,0 +1,202 @@
+.my-booking-page {
+  min-height: 60vh;
+  padding: 2rem 1rem;
+  background: var(--color-bg);
+}
+
+.my-booking-container {
+  width: 100%;
+  max-width: 760px;
+  margin: 0 auto;
+}
+
+.my-booking-header {
+  margin-bottom: 1.5rem;
+}
+
+.my-booking-header h1 {
+  margin: 0 0 0.5rem;
+  color: var(--color-text);
+}
+
+.my-booking-header p {
+  color: var(--color-text-muted);
+  line-height: 1.6;
+}
+
+.my-booking-search,
+.my-booking-details {
+  padding: 1.5rem;
+  border: 1px solid var(--color-border);
+  border-radius: 14px;
+  background: var(--color-surface);
+  box-shadow: 0 6px 20px
+    color-mix(in srgb, var(--color-dark) 5%, transparent);
+}
+
+.my-booking-search {
+  margin-bottom: 1.25rem;
+}
+
+.my-booking-search h2,
+.my-booking-details h2 {
+  margin-top: 0;
+  color: var(--color-text);
+}
+
+.my-booking-form {
+  display: grid;
+  gap: 1rem;
+}
+
+.my-booking-field {
+  display: grid;
+  gap: 0.45rem;
+}
+
+.my-booking-field label {
+  color: var(--color-text);
+  font-weight: 600;
+}
+
+.my-booking-field input {
+  box-sizing: border-box;
+  width: 100%;
+  min-height: 44px;
+  padding: 0.7rem 0.8rem;
+  border: 1px solid var(--color-border);
+  border-radius: 8px;
+  background: var(--color-surface);
+  color: var(--color-text);
+  font: inherit;
+}
+
+.my-booking-field input:focus-visible {
+  outline: 3px solid var(--color-primary-light);
+  border-color: var(--color-primary);
+}
+
+.my-booking-submit,
+.my-booking-cancel {
+  min-height: 44px;
+  padding: 0.7rem 1rem;
+  border: 1px solid transparent;
+  border-radius: 8px;
+  font: inherit;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.my-booking-submit {
+  color: var(--color-surface);
+  background: var(--color-primary);
+}
+
+.my-booking-cancel {
+  color: var(--color-surface);
+  background: var(--color-error);
+}
+
+.my-booking-submit:disabled,
+.my-booking-cancel:disabled {
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+.my-booking-submit:focus-visible,
+.my-booking-cancel:focus-visible {
+  outline: 3px solid var(--color-accent);
+  outline-offset: 3px;
+}
+
+.my-booking-message {
+  margin: 1rem 0;
+  padding: 0.9rem 1rem;
+  border-radius: 8px;
+  line-height: 1.5;
+  overflow-wrap: anywhere;
+}
+
+.my-booking-message--error {
+  color: var(--color-error);
+  background: color-mix(
+    in srgb,
+    var(--color-error) 12%,
+    var(--color-surface)
+  );
+}
+
+.my-booking-message--success {
+  color: var(--color-success);
+  background: color-mix(
+    in srgb,
+    var(--color-success) 12%,
+    var(--color-surface)
+  );
+}
+
+.my-booking-details {
+  margin-top: 1.25rem;
+}
+
+.my-booking-details-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+.my-booking-data {
+  margin: 0;
+}
+
+.my-booking-data > div {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.85rem 0;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.my-booking-data dt {
+  color: var(--color-text-muted);
+}
+
+.my-booking-data dd {
+  margin: 0;
+  color: var(--color-text);
+  font-weight: 600;
+  text-align: right;
+  overflow-wrap: anywhere;
+}
+
+.my-booking-cancel-section {
+  margin-top: 1.25rem;
+}
+
+.my-booking-cancel-section p,
+.my-booking-cancel-note {
+  color: var(--color-text-muted);
+  line-height: 1.6;
+}
+
+.my-booking-cancel-note {
+  margin-top: 1.25rem;
+}
+
+@media (max-width: 480px) {
+  .my-booking-search,
+  .my-booking-details {
+    padding: 1rem;
+  }
+
+  .my-booking-data > div {
+    flex-direction: column;
+    gap: 0.35rem;
+  }
+
+  .my-booking-data dd {
+    text-align: left;
+  }
+}
