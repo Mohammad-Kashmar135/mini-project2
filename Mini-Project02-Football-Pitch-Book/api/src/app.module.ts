@@ -1,6 +1,7 @@
-import { Module } from '@nestjs/common';
+import { Module } from "@nestjs/common";
+import { BookingsModule } from "./Bookings/bookings.module";
 @Module({
-  imports: [],
+  imports: [BookingsModule],
   controllers: [],
   providers: [],
 })
