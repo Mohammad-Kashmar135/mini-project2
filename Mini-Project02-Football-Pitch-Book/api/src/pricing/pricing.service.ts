@@ -1,13 +1,13 @@
-import { BadRequestException, Injectable } from '@nestjs/common';
-import { ClockService } from '../common/clock.service';
-import { PEAK_END_HOUR, PEAK_START_HOUR } from '../common/constants';
+import { BadRequestException, Injectable } from "@nestjs/common";
+import { ClockService } from "../common/clock.service";
+import { PEAK_END_HOUR, PEAK_START_HOUR } from "../common/constants";
 import {
   formatHour,
   isWithinBookingWindow,
   parseHour,
-} from '../common/time.util';
-import { Pitch } from '../pitches/pitch.types';
-import { Quote, QuoteHour } from './pricing.types';
+} from "../common/time.util";
+import { Pitch } from "../pitches/pitch.types";
+import { Quote, QuoteHour } from "./pricing.types";
 
 @Injectable()
 export class PricingService {
@@ -44,7 +44,7 @@ export class PricingService {
   ): Quote {
     if (!isWithinBookingWindow(date, this.clockService.now())) {
       throw new BadRequestException(
-        'Bookings can only be made up to 14 days in advance.',
+        "Bookings can only be made up to 14 days in advance.",
       );
     }
 
