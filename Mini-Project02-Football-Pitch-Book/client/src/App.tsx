@@ -3,7 +3,7 @@ import { AvailabilityProvider } from "./context/AvailabilityContext";
 import { BookingProvider } from "./context/BookingContext";
 import AppRouter from "./routes/AppRouter";
 
-function App() {
+export default function App() {
   return (
     <PitchesProvider>
       <AvailabilityProvider>
@@ -14,5 +14,3 @@ function App() {
     </PitchesProvider>
   );
 }
-
-export default App;

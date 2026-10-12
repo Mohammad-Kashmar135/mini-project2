@@ -1,14 +1,14 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+
 import Layout from "../components/layout/Layout";
 
-import HomePage from "../pages/PitchDetails/Home/HomePage";
+import HomePage from "../pages/Home/HomePage";
 import PitchDetailsPage from "../pages/PitchDetails/PitchDetailsPage";
-import AvailabilityPage from "../pages/PitchDetails/Availability/AvailabilityPage";
-import NotFoundPage from "../pages/PitchDetails/NotFound/NotFoundPage";
-
+import AvailabilityPage from "../pages/Availability/AvailabilityPage";
 import BookingFormPage from "../pages/BookingForm/BookingFormPage";
 import BookingConfirmationPage from "../pages/BookingConfirmation/BookingConfirmationPage";
 import MyBookingPage from "../pages/MyBooking/MyBookingPage";
+import NotFoundPage from "../pages/NotFound/NotFoundPage";
 
 export default function AppRouter() {
   return (

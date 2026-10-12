@@ -5,16 +5,18 @@ import {
   useParams,
   useSearchParams,
 } from "react-router-dom";
-import Button from "../../../components/common/Button";
-import EmptyState from "../../../components/common/EmptyState";
-import ErrorMessage from "../../../components/common/ErrorMessage";
-import Loading from "../../../components/common/Loading";
-import PageContainer from "../../../components/common/PageContainer";
-import { MAX_ADVANCE_DAYS } from "../../../constants";
-import { useAvailability } from "../../../context/AvailabilityContext";
-import { usePitches } from "../../../context/PitchesContext";
-import { addDaysToToday, getTodayString } from "../../../utils/date";
-import { formatDate } from "../../../utils/format";
+
+import Button from "../../components/common/Button";
+import EmptyState from "../../components/common/EmptyState";
+import ErrorMessage from "../../components/common/ErrorMessage";
+import Loading from "../../components/common/Loading";
+import PageContainer from "../../components/common/PageContainer";
+import { MAX_ADVANCE_DAYS } from "../../constants";
+import { useAvailability } from "../../context/AvailabilityContext";
+import { usePitches } from "../../context/PitchesContext";
+import { addDaysToToday, getTodayString } from "../../utils/date";
+import { formatDate } from "../../utils/format";
+
 import SelectionSummary from "./SelectionSummary";
 import SlotGrid from "./SlotGrid";
 import "./AvailabilityPage.css";
@@ -165,13 +167,15 @@ export function AvailabilityPage() {
 
   return (
     <PageContainer
-      title={pitchName ? `${pitchName} availability` : "Pitch availability"}>
+      title={pitchName ? `${pitchName} availability` : "Pitch availability"}
+    >
       <div className="availability-page">
         <div className="availability-page__header">
           {pitchId && (
             <Link
               className="availability-page__back"
-              to={`/pitches/${encodeURIComponent(pitchId)}`}>
+              to={`/pitches/${encodeURIComponent(pitchId)}`}
+            >
               ← Back to pitch
             </Link>
           )}
@@ -181,7 +185,8 @@ export function AvailabilityPage() {
         <div className="availability-page__controls">
           <label
             className="availability-page__label"
-            htmlFor="availability-date">
+            htmlFor="availability-date"
+          >
             Date
           </label>
           <input
