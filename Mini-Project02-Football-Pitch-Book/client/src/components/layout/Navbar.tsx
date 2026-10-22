@@ -6,7 +6,7 @@ export default function Navbar() {
     <nav className="layout-navbar">
       <div className="layout-navbar__container">
         <Link to="/" className="layout-navbar__brand">
-          ⚽ Football Pitch Booking
+          ⚽ TIKI TAKA
         </Link>
         <div className="layout-navbar__links">
           <Link to="/" className="layout-navbar__link">

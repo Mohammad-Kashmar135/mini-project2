@@ -12,6 +12,26 @@
   border-radius: 16px;
   background-color: var(--color-dark);
   color: var(--color-surface);
+  position: relative;
+  isolation: isolate;
+  display: flex;
+  align-items: center;
+  width: 100%;
+  min-height: 400px;
+  padding: 80px clamp(20px, 7vw, 100px);
+  background-image:
+    linear-gradient(
+      90deg,
+      rgba(3, 18, 28, 0.88) 0%,
+      rgba(3, 18, 28, 0.62) 45%,
+      rgba(3, 18, 28, 0.15) 100%
+    ),
+    url("/images/football.png");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  color: #ffffff;
+  overflow: hidden;
 }
 
 .home-page__title {
